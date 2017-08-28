@@ -13,7 +13,7 @@ average_lines_in_use = 0.0;
 grade_of_service = 0.0;
 simulation_time = 0.0;
 
-% Initialise Line array
+% Initialise Trunk array
 all_comm_lines(1, trunk_count) = ObjectConstructor(); %TODO
 
 for i = 1:number_of_ticks

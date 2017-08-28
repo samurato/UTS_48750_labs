@@ -1,6 +1,6 @@
-classdef Line
-    %EntityGenerator class
-    %   Used to generate users
+classdef Trunk
+    %Trunk class
+    %   Used to generate trunk links
     
     properties
         avg_call_duration;
@@ -11,7 +11,7 @@ classdef Line
     methods
         % Entity constructor
         % returns Entity object
-        function obj = Line(avg_call_duration)
+        function obj = Trunk(avg_call_duration)
             if isnumeric(avg_call_duration)
                 obj.avg_call_duration = avg_call_duration;
                 obj.is_in_call = false;
