@@ -15,6 +15,9 @@ simulation_time = 0.0;
 
 % Initialise Trunk array
 all_comm_lines(1, trunk_count) = ObjectConstructor(); %TODO
+for n = 1:trunk_count
+  all_com_lines(n) = Trunk(call_duration);
+end
 
 for i = 1:number_of_ticks
     
