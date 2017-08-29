@@ -20,6 +20,8 @@ for n = 1:trunk_count
 end
 
 for i = 1:number_of_ticks
-    
+    for ii = 1:number_of_ticks
+        all_com_lines(ii) = all_com_lines(ii).tick(all_com_lines(ii), 1);
+    end
 end
 
