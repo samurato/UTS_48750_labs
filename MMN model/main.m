@@ -11,15 +11,27 @@ number_of_ticks = 0;
 %variables
 average_lines_in_use = 0.0;
 grade_of_service = 0.0;
-simulation_time = 0.0;
+simulation_time = 60;
 all_trunks(1:trunk_count) = Trunk(avg_call_duration);
 call_probability = input('Enter the call probability (0.00 - 1.00): ');
+results(1:simulation_time) = 0;
+dropped_call(1:simulation_time) = 0;
 
 for i = 1:number_of_ticks
     for ii = 1:trunk_count
         all_trunks(ii).tick();
     end
 end
+
+time(1:simulation_time) = 0;
+for i = 1:simulation_time
+   time(i) = i; 
+end
+
+plot(time, results, time, dropped_calls),
+legend('Trunks Occupied', 'Calls Dropped')
+xlabel('Time'), ylabel('Count')
+title('Trunks occupied and dropped calls over time');
 
 %Poission Function
 function y = poisson(x,u,T)
