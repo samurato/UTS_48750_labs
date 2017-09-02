@@ -25,3 +25,36 @@ for i = 1:number_of_ticks
     end
 end
 
+
+%Poission Function
+function y = poisson(x,u,T)
+u=u*T
+    if u < 0 
+        y=0
+        elseif x < 0
+        y=0
+    else
+        p=((u^x)*exp(-u))/factorial(x);
+        y = p;
+    end
+end
+
+
+
+function [C]=ErlangC(A,N)
+    % Erlang B calculation
+    EB = (A^N/factorial(N))/sum(A^(0:N)/factorial(0:N));
+    % Calc C
+    EC = (N/(N-A))*B;
+    %Outut verification
+    if C>1
+        C=1
+    else
+        if C<0
+            C=0
+        end
+    end
+end
+
+
+
