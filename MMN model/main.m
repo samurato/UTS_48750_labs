@@ -3,7 +3,7 @@
 
 %constants
 max_time = 30.0;
-call_duration = 12;
+avg_call_duration = 12;
 trunk_count = 30;
 observed_call_count = 50;
 number_of_ticks = 0;
@@ -12,19 +12,14 @@ number_of_ticks = 0;
 average_lines_in_use = 0.0;
 grade_of_service = 0.0;
 simulation_time = 0.0;
-
-% Initialise Trunk array
-all_comm_lines(1, trunk_count) = ObjectConstructor(); %TODO
-for n = 1:trunk_count
-  all_com_lines(n) = Trunk(call_duration);
-end
+all_trunks(1:trunk_count) = Trunk(avg_call_duration);
+call_probability = input('Enter the call probability (0.00 - 1.00): ');
 
 for i = 1:number_of_ticks
-    for ii = 1:number_of_ticks
-        all_com_lines(ii) = all_com_lines(ii).tick(all_com_lines(ii), 1);
+    for ii = 1:trunk_count
+        all_trunks(ii).tick();
     end
 end
-
 
 %Poission Function
 function y = poisson(x,u,T)
