@@ -89,7 +89,7 @@ end
 function gos = calcGradeOfService(blocked_calls, offered_calls)
     blocked_calls = sum(blocked_calls);
     offered_calls = sum(offered_calls);
-    gos = blocked_calls / offered_calls
+    gos = blocked_calls / (offered_calls + blocked_calls);
 end
 
 
