@@ -85,5 +85,11 @@ function [C]=ErlangC(A,N)
     end
 end
 
+% get blocked_calls array and results array.
+function gos = calcGradeOfService(blocked_calls, offered_calls)
+    blocked_calls = sum(blocked_calls);
+    offered_calls = sum(offered_calls);
+    gos = blocked_calls / offered_calls
+end
 
 
