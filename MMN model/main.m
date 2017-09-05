@@ -20,26 +20,25 @@ results(1:simulation_time) = 0;
 dropped_calls(1:simulation_time) = 0;
 
 for i = 1:number_of_ticks
-    
-    qeueue_length = 0;% calculate amount of people to put in calls this tick
-                      % do not override this variable. Values carry over
-                      % from tick to tick
+    qeueue_length = 0;
+
+    for z = 1:trunk_count
+        if randomGen(call_probability)
+            qeueue_length = qeueue_length + 1;
+        end
+    end
+
     people_in_calls = 0;
     for ii = 1:trunk_count
         %all_trunks(ii).tick();
         if all_trunks(ii).is_in_call == true
             people_in_calls = people_in_calls + 1;
-            % Gen rand num and check against probability of hanging up
-            
-            % hang up if true
             if isCallEnding(number_of_calls, observation_time, avg_call_duration) == true
                 all_trunks(ii).endCall();
             end
         elseif qeueue_length > 0
-            % Gen rand num and check against probability of picking up
-            if randomGen(call_probability) == true  
-               all_trunks(ii).startCall(); 
-            end
+            all_trunks(ii).startCall();
+            people_in_calls = people_in_calls + 1;
             qeueue_length = qeueue_length - 1;
         end
     end
