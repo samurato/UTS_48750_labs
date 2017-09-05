@@ -6,7 +6,8 @@ max_time = 30.0;
 avg_call_duration = 12;
 trunk_count = 30;
 observed_call_count = 50;
-number_of_ticks = 0;
+number_of_ticks = max_time * 60;
+observation_time = 1/60;
 
 %variables
 average_lines_in_use = 0.0;
@@ -25,17 +26,18 @@ for i = 1:number_of_ticks
                       % from tick to tick
     people_in_calls = 0;
     for ii = 1:trunk_count
-        all_trunks(ii).tick();
+        %all_trunks(ii).tick();
         if all_trunks(ii).is_in_call == true
             people_in_calls = people_in_calls + 1;
             % Gen rand num and check against probability of hanging up
+            
             % hang up if true
-            if true
+            if isCallEnding(number_of_calls, observation_time, avg_call_duration) == true
                 all_trunks(ii).endCall();
             end
         elseif qeueue_length > 0
             % Gen rand num and check against probability of picking up
-            if true
+            if randomGen(call_probability) == true  
                all_trunks(ii).startCall(); 
             end
             qeueue_length = qeueue_length - 1;
@@ -91,5 +93,20 @@ function gos = calcGradeOfService(blocked_calls, offered_calls)
     offered_calls = sum(offered_calls);
     gos = blocked_calls / (offered_calls + blocked_calls);
 end
+
+function isCallWaiting = randomGen(probability)
+   r = rand(1);
+   if probability <= r
+       isCallWaiting = true
+   else
+       isCallWaiting = false
+   end
+end
+
+function endCall = isCallEnding(number_of_calls, observation_time, avg_call_duration)
+    probability = (number_of_calls * observation_time)/ avg_call_duration
+    endCall = randomGen(probability);
+end
+
 
 
