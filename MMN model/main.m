@@ -18,36 +18,51 @@ all_trunks(1:trunk_count) = Trunk(avg_call_duration);
 call_probability = input('Enter the call probability (0.00 - 1.00): ');
 results(1:number_of_ticks) = 0;
 dropped_calls(1:number_of_ticks) = 0;
+caller = 0;
+lost = 0;
+
+    
 
 for i = 1:number_of_ticks
     qeueue_length = 0;
-    for z = 1:trunk_count
-        if randomGen(call_probability) == true
-            qeueue_length = qeueue_length + 1;
+    %all_trunks(ii) ask patrick i dont get how this works
+    
+    %incoming call
+    if randomGen(call_probability) == true
+        for ii = 1:trunk_count
+            if all_trunks(ii).is_in_call == true
+                if isCallEnding(number_of_calls, observation_time, avg_call_duration) == True
+                lost = lost +1;
+                end
+            else   
+             disp('Added caller');
+             caller = caller +1;
+             all_trunks(ii).startCall(); 
+             end
         end
-    end
-    disp('people to go into the call');
-    disp(qeueue_length);
-    people_in_calls = 0;
+    
+    
+    else
+    %Check for ending calls even if there is no call incoming    
     for ii = 1:trunk_count
         if all_trunks(ii).is_in_call == true
-            people_in_calls = people_in_calls + 1;
             if isCallEnding(number_of_calls, observation_time, avg_call_duration) == true
                 all_trunks(ii).endCall();
+                caller = caller -1;
             end
-        elseif qeueue_length > 0
-            all_trunks(ii).startCall();
-            people_in_calls = people_in_calls + 1;
-            qeueue_length = qeueue_length - 1;
         end
     end
+    end
     disp('people_in_calls');
-    disp(people_in_calls);
-    disp('qeue_length');
-    disp(qeueue_length);
-    results(i) = people_in_calls;
-    dropped_calls(i) = qeueue_length;
+    disp(caller);
+    disp('Lost');
+    disp(lost);
+    results(i) = caller;
+    dropped_calls(i) = lost;    
+    
 end
+
+
 
 time(1:number_of_ticks) = 0;
 for i = 1:number_of_ticks
