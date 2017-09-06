@@ -1,3 +1,4 @@
+clear all;
 % M/M/N simulation
 % Patrick Miziewicz & Zach Newton
 
@@ -25,7 +26,7 @@ for i = 1:number_of_ticks
             qeueue_length = qeueue_length + 1;
         end
     end
-    disp();
+    disp('people to go into the call');
     disp(qeueue_length);
     people_in_calls = 0;
     for ii = 1:trunk_count
@@ -40,7 +41,9 @@ for i = 1:number_of_ticks
             qeueue_length = qeueue_length - 1;
         end
     end
+    disp('people_in_calls');
     disp(people_in_calls);
+    disp('qeue_length');
     disp(qeueue_length);
     results(i) = people_in_calls;
     dropped_calls(i) = qeueue_length;
@@ -96,7 +99,7 @@ end
 function isCallWaiting = randomGen(probability)
    r = rand(1, 'double');
    disp(r);
-   if probability <= r
+   if probability >= r
        isCallWaiting = true
    else
        isCallWaiting = false
@@ -107,6 +110,8 @@ end
 %observation_time = the delta time period
 %avg_call_duration = observed average call duration
 function endCall = isCallEnding(number_of_calls, observation_time, avg_call_duration)
+    disp('END CALL NUMBER OF CALLS');
+    disp(number_of_calls);
     probability = (number_of_calls * observation_time)/ avg_call_duration;
     disp(probability);
     endCall = randomGen(probability);
