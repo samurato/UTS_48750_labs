@@ -6,31 +6,28 @@ max_time = 30.0;
 avg_call_duration = 12;
 trunk_count = 30;
 observed_call_count = 50;
-number_of_ticks = max_time * 60;
+number_of_ticks = max_time;
 observation_time = 1/60;
 
 %variables
 average_lines_in_use = 0.0;
 grade_of_service = 0.0;
 simulation_time = 60;
-qeueue_length = 0;
 all_trunks(1:trunk_count) = Trunk(avg_call_duration);
 call_probability = input('Enter the call probability (0.00 - 1.00): ');
-results(1:simulation_time) = 0;
-dropped_calls(1:simulation_time) = 0;
+results(1:number_of_ticks) = 0;
+dropped_calls(1:number_of_ticks) = 0;
+qeueue_length = 0;
 
 for i = 1:number_of_ticks
-    qeueue_length = 0;
-
     for z = 1:trunk_count
-        if randomGen(call_probability)
+        if randomGen(call_probability) == true
             qeueue_length = qeueue_length + 1;
         end
     end
 
     people_in_calls = 0;
     for ii = 1:trunk_count
-        %all_trunks(ii).tick();
         if all_trunks(ii).is_in_call == true
             people_in_calls = people_in_calls + 1;
             if isCallEnding(number_of_calls, observation_time, avg_call_duration) == true
@@ -46,8 +43,8 @@ for i = 1:number_of_ticks
     dropped_calls(i) = qeueue_length;
 end
 
-time(1:simulation_time) = 0;
-for i = 1:simulation_time
+time(1:number_of_ticks) = 0;
+for i = 1:number_of_ticks
    time(i) = i; 
 end
 
@@ -94,7 +91,8 @@ function gos = calcGradeOfService(blocked_calls, offered_calls)
 end
 
 function isCallWaiting = randomGen(probability)
-   r = rand(1);
+   r = rand(1, 'double');
+   disp(r);
    if probability <= r
        isCallWaiting = true
    else
@@ -103,7 +101,8 @@ function isCallWaiting = randomGen(probability)
 end
 
 function endCall = isCallEnding(number_of_calls, observation_time, avg_call_duration)
-    probability = (number_of_calls * observation_time)/ avg_call_duration
+    probability = (number_of_calls * observation_time)/ avg_call_duration;
+    disp(probability);
     endCall = randomGen(probability);
 end
 
