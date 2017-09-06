@@ -17,15 +17,16 @@ all_trunks(1:trunk_count) = Trunk(avg_call_duration);
 call_probability = input('Enter the call probability (0.00 - 1.00): ');
 results(1:number_of_ticks) = 0;
 dropped_calls(1:number_of_ticks) = 0;
-qeueue_length = 0;
 
 for i = 1:number_of_ticks
+    qeueue_length = 0;
     for z = 1:trunk_count
         if randomGen(call_probability) == true
             qeueue_length = qeueue_length + 1;
         end
     end
-
+    disp();
+    disp(qeueue_length);
     people_in_calls = 0;
     for ii = 1:trunk_count
         if all_trunks(ii).is_in_call == true
@@ -39,6 +40,8 @@ for i = 1:number_of_ticks
             qeueue_length = qeueue_length - 1;
         end
     end
+    disp(people_in_calls);
+    disp(qeueue_length);
     results(i) = people_in_calls;
     dropped_calls(i) = qeueue_length;
 end
@@ -100,6 +103,9 @@ function isCallWaiting = randomGen(probability)
    end
 end
 
+%number_of_calls = number of trunks currently in use
+%observation_time = the delta time period
+%avg_call_duration = observed average call duration
 function endCall = isCallEnding(number_of_calls, observation_time, avg_call_duration)
     probability = (number_of_calls * observation_time)/ avg_call_duration;
     disp(probability);
