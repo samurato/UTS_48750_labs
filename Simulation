@@ -53,12 +53,26 @@ end
     [st] =k;
  end
  %Code to repesent Congestion
- 
-    
-
-   
-
-
+ function [stB] = StateB(N,Pcall,Scrb,holdTime,observTime,Q)
+        C = observTime*Scrb*Pcall; 
+        Calls = 0;
+        Losts = 0;
+        k =0; 
+    for j = 0:N
+    while rand(1)> poission (0,C)
+        k = k+1;
+        Calls = Calls+1
+        while k > Q;
+            k = Q;
+            Losts = Losts+1;
+        end
+    if rand(1) < pEnd(k,observTime,holdTime)
+        k = k - 1;
+    end
+    end
+    end
+    [st] = k;
+end
 %for r=0:N
 	%sum =1/ ((A ^ r))/ factorial(r);
    % B = A ^ N / (factorial(N) * esum);
